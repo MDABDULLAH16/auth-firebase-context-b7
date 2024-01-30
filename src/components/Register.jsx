@@ -40,6 +40,9 @@ const Register = () => {
       .catch((error) => {
         toast(error.message);
       });
+    event.target.email.value = "";
+    event.target.password.value = "";
+    event.target.name.value = "";
   };
   const handleUpdateProfile = (user, name) => {
     updateProfile(user, {
