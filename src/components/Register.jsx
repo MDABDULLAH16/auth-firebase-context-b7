@@ -29,6 +29,7 @@ const Register = () => {
       .then((result) => {
         console.log(result.user);
         handleUpdateProfile(result.user, name);
+
         toast("User Create Successfull");
       })
       .catch((error) => {
