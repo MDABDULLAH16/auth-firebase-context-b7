@@ -17,6 +17,7 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
         const loggedUser = result.user;
+        console.log(loggedUser.emailVerified);
         setUser(loggedUser);
         toast("user Login done!!");
       })

@@ -4,6 +4,7 @@ import App from "../App";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.conifig";
@@ -28,8 +29,12 @@ const Register = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result.user);
+
+        //add email display Name;
         handleUpdateProfile(result.user, name);
 
+        //email varified;
+        handleVarifiedEmail(result.user);
         toast("User Create Successfull");
       })
       .catch((error) => {
@@ -40,6 +45,10 @@ const Register = () => {
     updateProfile(user, {
       displayName: name,
     });
+  };
+  const handleVarifiedEmail = (user) => {
+    sendEmailVerification(user);
+    toast("Cheak Your Email");
   };
   return (
     <div className='hero min-h-screen bg-base-200'>
