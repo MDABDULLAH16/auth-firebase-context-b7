@@ -14,7 +14,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 // const auth = getAuth(app);
 const Login = () => {
   //use COntext
-  const { loginUser, setUser } = useContext(AuthContext);
+  const { loginUser, setUser, resetPassword } = useContext(AuthContext);
 
   // const [user, setUser] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -30,10 +30,9 @@ const Login = () => {
     loginUser(email, password)
       .then((result) => {
         const loggedUser = result.user;
-        console.log(loggedUser);
-
         setUser(loggedUser);
         toast("user Login done!!");
+        console.log(loggedUser);
       })
       .catch((error) => {
         toast(error.message);
@@ -45,7 +44,7 @@ const Login = () => {
   const handleResetPassword = (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
-    sendPasswordResetEmail(auth, email)
+    resetPassword(email)
       .then(() => {
         toast("cheak Your Email to reset password");
       })
