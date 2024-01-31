@@ -1,19 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import App from "../App";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  sendEmailVerification,
-  updateProfile,
-} from "firebase/auth";
-import app from "../firebase/firebase.conifig";
+import { AuthContext } from "../Provider/AuthProvider";
 import toast, { Toaster } from "react-hot-toast";
 
 const Register = () => {
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const auth = getAuth(app);
+  //use COntext input and distructure hare
+  const { createUser } = useContext(AuthContext);
+
   const handleRegister = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -26,33 +19,17 @@ const Register = () => {
     }
     const name = form.name.value;
     console.log(email, password, name);
-    createUserWithEmailAndPassword(auth, email, password)
+    createUser(email, password)
       .then((result) => {
-        console.log(result.user);
-
-        //add email display Name;
-        handleUpdateProfile(result.user, name);
-
-        //email varified;
-        handleVarifiedEmail(result.user);
-        toast("User Create Successfull");
+        const creator = result.user;
+        console.log(creator);
+        toast("User Create Done");
       })
       .catch((error) => {
         toast(error.message);
       });
-    event.target.email.value = "";
-    event.target.password.value = "";
-    event.target.name.value = "";
   };
-  const handleUpdateProfile = (user, name) => {
-    updateProfile(user, {
-      displayName: name,
-    });
-  };
-  const handleVarifiedEmail = (user) => {
-    sendEmailVerification(user);
-    toast("Cheak Your Email");
-  };
+
   return (
     <div className='hero min-h-screen bg-base-200'>
       <div className='hero-content flex-col md:flex-row-reverse'>

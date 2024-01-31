@@ -3,23 +3,31 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import app from "../firebase/firebase.conifig";
 import toast, { Toaster } from "react-hot-toast";
 import Home from "./Home";
+import { AuthContext } from "../Provider/AuthProvider";
 
-const auth = getAuth(app);
+// auth use on the AuthContext route
+// const auth = getAuth(app);
 const Login = () => {
-  const [user, setUser] = useState(null);
-  console.log(user?.displayName);
+  //use COntext
+  const { loginUser, setUser } = useContext(AuthContext);
+
+  // const [user, setUser] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [ischecked, setIsChecked] = useState(false);
+  console.log(ischecked);
+
   const emailRef = useRef();
   const handleLogin = (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-    signInWithEmailAndPassword(auth, email, password)
+    loginUser(email, password)
       .then((result) => {
         const loggedUser = result.user;
         console.log(loggedUser);
@@ -29,6 +37,7 @@ const Login = () => {
       })
       .catch((error) => {
         toast(error.message);
+        return;
       });
     event.target.email.value = "";
     event.target.password.value = "";
@@ -42,10 +51,10 @@ const Login = () => {
       })
       .catch((error) => {
         toast(error.message);
+        return;
       });
   };
-  const [showPassword, setShowPassword] = useState(false);
-  const [ischecked, setIsChecked] = useState(false);
+
   const handleShowPassword = (event) => {
     event.preventDefault();
     setShowPassword(!showPassword);
