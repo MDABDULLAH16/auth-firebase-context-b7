@@ -17,7 +17,14 @@ const Header = () => {
         <Link to='/' className='btn btn-ghost text-xl'>
           Home
         </Link>
-
+        <Link to='/orders' className='btn btn-ghost text-xl'>
+          Orders
+        </Link>
+        {user && (
+          <Link to='/profile' className='btn btn-ghost text-xl'>
+            Profile
+          </Link>
+        )}
         <Link to='/register' className='btn btn-ghost text-xl'>
           Register
         </Link>
